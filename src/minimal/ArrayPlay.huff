@@ -1,0 +1,56 @@
+/* Interface */
+#define function readFromArray(uint256) view returns (uint256) // a uint256[] array we are reading from
+#define function storeInArray(uint256) nonpayable returns() // a uint256[] array we are reading from
+
+/* Storage Slots */
+#define constant ARRAY_STARTING_SLOT = FREE_STORAGE_POINTER()
+
+/* Macros */
+#define macro READ_FROM_FIXED_ARRAY() = takes (0) returns (0) {
+    0x04 calldataload          // [array index to read from] array index should be 0
+    iszero                     // [index == 0]
+    success jumpi                 // [iszero_result]    
+
+    0x00 0x00 revert
+
+    success:
+        [ARRAY_STARTING_SLOT]      // [ARRAY_STARTING_SLOT, iszero_result]
+        0x00 mstore                // [iszero_result] // Memory now has the starting slot 
+        0x20 0x00                  // [offset, size, iszero_result]
+        sha3                       // [HashedStorageSlot, iszero_result] // sha3 reads from memory based on the offset & size given
+        sload                      // [value_in_array, iszero_result]
+
+        0x00 mstore                // [iszero_result] // Memory now has the starting slot
+        0x20 0x00 return
+}   
+
+// We are going to use a fixed-length array of size 1
+// This makes it easy to code lol 
+// If you're feeling frisky, you can try to implement:
+//   1. A solidity sytle dynamic array
+//   2. A vyper style bounded dynamic array (I'd love to see this one.)
+#define macro STORE_UINT256() = takes(0) returns(0) {
+    0x04 calldataload          // [uint256 to store]
+    [ARRAY_STARTING_SLOT]      // [StartingSlot, uint256 to store]
+    0x00 mstore                // [uint256 to store] // Memory now has the starting slot 
+    0x20 0x00                  // [offset, size, Argument]
+    sha3                       // [HashedStorageSlot, Argument] // sha3 reads from memory based on the offset & size given
+    sstore                     // []
+}
+
+/* Special Macros */
+#define macro MAIN() = takes (0) returns (0) {
+    // Identify which function is being called.
+    0x00 calldataload 0xE0 shr
+
+    dup1 __FUNC_SIG("readFromArray(uint256)") eq readFromArray jumpi 
+    dup1 __FUNC_SIG("storeInArray(uint256)") eq storeInArray jumpi 
+
+    readFromArray: 
+        READ_FROM_FIXED_ARRAY()
+    
+    storeInArray: 
+        STORE_UINT256()
+}
+
+// 0xb2ea7c8400000000000000000000000000000000

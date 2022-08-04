@@ -1,5 +1,3 @@
-> This repo is a work in progress.
-
 <br/>
 <p align="center">
 <a href="https://chain.link" target="_blank">
@@ -12,6 +10,13 @@ A template repository for building a huff based smart contract project with Foun
 
 For more information on using foundry with solidity, check out the [foundry-starter-kit](https://github.com/smartcontractkit/foundry-starter-kit)
 
+ Implementation of the following 2 Chainlink features using the [Foundry](https://book.getfoundry.sh/getting-started/installation.html) & [Huff](https://huff.sh/) development environment:
+ - [Chainlink Price Feeds](https://docs.chain.link/docs/using-chainlink-reference-contracts)
+ - [Chainlink Keepers](https://docs.chain.link/docs/chainlink-keepers/introduction/)
+
+# Table Of Contents
+
+- [Table Of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Quickstart](#quickstart)

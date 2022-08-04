@@ -7,7 +7,6 @@
 #define function performUpkeep(bytes) nonpayable returns()
 #define function lastTimeStamp() view returns(uint256)
 
-
 /* Overriden Constants */
 #define constant INTERVAL = 0x0000000000000000000000000000000000000000 // Will be overrided at deploy time
 
@@ -74,9 +73,7 @@
     // First, we make sure checkupkeep is good
     CHECK_UPKEEP()                         // [0x00, 0x20, 0x00, time_comparison]
     pop pop pop                            // [time_comparison] 
-    // 0x01                                   // [0x01, time_comparison]
-    // eq                                     // [time_comparison == 1] 
-    iszero    
+    iszero                                 // [time_comparison == 0] 
 
     // Revert if checkUpkeep is false!
     fail jumpi 
