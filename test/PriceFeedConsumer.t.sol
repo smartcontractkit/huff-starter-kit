@@ -3,7 +3,7 @@ pragma solidity ^0.8.15;
 
 import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
-import "./mocks/MockV3Aggregator.sol"; // temporary using non-huff
+import "./mocks/MockV3Aggregator.sol";
 
 contract PriceFeedConsumerTest is Test {
     uint8 public constant DECIMALS = 18;
