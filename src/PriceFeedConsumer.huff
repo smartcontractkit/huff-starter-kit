@@ -6,7 +6,6 @@
 
 /* Overriden Constants */
 #define constant PRICE_FEED_ADDRESS = 0x0000000000000000000000000000000000000000 // Will be overrided at deploy time
-#define constant DUMMY_VAL = 0x0000000000000000000000000000000000000022 // Will be overrided at deploy time
 
 /* Macrocs (Functions) */
 #define macro GET_PRICE_FEED_ADDRESS() = takes (0) returns (0) {

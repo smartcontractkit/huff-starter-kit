@@ -32,10 +32,7 @@ contract PriceFeedConsumerTest is Test {
 
     function testReadValue() public {
         int256 priceFromHuff = priceFeedConsumer.getLatestPrice();
-        (, int256 priceFromFeed, , , ) = mockV3Aggregator.latestRoundData();
-        emit log_int(priceFromHuff);
-        emit log_int(priceFromFeed);
-        assert(priceFromHuff == priceFromFeed);
+        assertTrue(priceFromHuff == INITIAL_ANSWER);
     }
 }
 
