@@ -22,6 +22,8 @@ For more information on using foundry with solidity, check out the [foundry-star
     - [Setup](#setup)
     - [Deploying](#deploying)
 - [Misc](#misc)
+  - [Disclaimer](#disclaimer)
+  - [Acknowledgments](#acknowledgments)
   - [Contributing](#contributing)
   - [Resources](#resources)
 
@@ -126,6 +128,15 @@ These pull from the files in the `script` folder.
 
 
 # Misc
+
+## Disclaimer
+
+> None of the contacts have been audited, use at your own risk.
+
+## Acknowledgments
+
+- [Huff Project Template](https://github.com/huff-language/huff-project-template/tree/main/src)
+- [Huff Examples](https://github.com/huff-language/huff-examples)
 
 ## Contributing
 
