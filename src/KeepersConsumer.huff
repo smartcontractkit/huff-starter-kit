@@ -68,23 +68,6 @@
     0x00 0x20                             // [0x00, 0x20, 0x00, time_comparison]
 }
 
-// #define macro CHECK_UPKEEP() = takes (0) returns (2) {
-//     // We just totally ignore the bytes calldata if sent
-
-//     // Put timestamp difference on stack
-//     [LAST_TIME_STAMP_LOCATION] sload      // [LAST_TIME_STAMP_LOCATION]
-//     timestamp                             // [timestamp, LAST_TIME_STAMP_LOCATION]
-//     sub                                   // [different_in_time]
-
-//     // Put the interval on the stack, and then compare
-//     [INTERVAL]                            // [INTERVAL, different_in_time]
-//     lt                                    // [time_comparison]
-//     0x00 mstore                           // [] Stick time_comparison in memory at slot 0
-
-//     0x00 0x20 mstore                      // Stick an empty bytes object in memory at slot 1, we don't even need this line TBH
-//     0x40 0x00 return                      // Return 2 bytes from memory string from 0. This returns the comparison bool and the performUpkeep bytes,
-// }
-
 #define macro PERFORM_UPKEEP() = takes (0) returns (0) {
     // We just totally ignore the bytes calldata if sent
 
