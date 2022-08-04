@@ -26,6 +26,7 @@ For more information on using foundry with solidity, check out the [foundry-star
   - [Acknowledgments](#acknowledgments)
   - [Contributing](#contributing)
   - [Resources](#resources)
+  - [Helpful Debugging Resources:](#helpful-debugging-resources)
 
 # Getting Started
 
@@ -149,3 +150,9 @@ Thank You!
 -   [Chainlink Documentation](https://docs.chain.link/)
 -   [Foundry Documentation](https://book.getfoundry.sh/)
 -   [Huff Documentation](https://docs.huff.sh/)
+
+## Helpful Debugging Resources:
+
+- [evm.codes](https://www.evm.codes/)
+- [evm.codes playground](https://www.evm.codes/playground)
+- [Huff VSCode Debugger & Highlighter](https://github.com/huff-language/vscode-huff)
