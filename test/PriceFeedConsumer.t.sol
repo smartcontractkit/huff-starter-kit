@@ -29,8 +29,18 @@ contract PriceFeedConsumerTest is Test {
         console.log(priceFeedAddress);
         assert(priceFeedAddress == address(mockV3Aggregator));
     }
+
+    function testReadValue() public {
+        int256 priceFromHuff = priceFeedConsumer.getLatestPrice();
+        (, int256 priceFromFeed, , , ) = mockV3Aggregator.latestRoundData();
+        emit log_int(priceFromHuff);
+        emit log_int(priceFromFeed);
+        assert(priceFromHuff == priceFromFeed);
+    }
 }
 
 interface PriceFeedConsumer {
     function getPriceFeedAddress() external view returns (address);
+
+    function getLatestPrice() external view returns (int256);
 }

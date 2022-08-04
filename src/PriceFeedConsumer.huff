@@ -1,18 +1,54 @@
 // SPDX-License-Identifier: MIT
 
 /* Interface */
-// #define function getLatestPrice() view returns (int256)
 #define function getPriceFeedAddress() view returns (address)
+#define function getLatestPrice() view returns (int256)
 
-/* Constants */
-#define constant PRICE_FEED_ADDRESS = 0x0000000000000000000000000000000000000001 // Will be overrided at deploy time
-
+/* Overriden Constants */
+#define constant PRICE_FEED_ADDRESS = 0x0000000000000000000000000000000000000000 // Will be overrided at deploy time
+#define constant DUMMY_VAL = 0x0000000000000000000000000000000000000022 // Will be overrided at deploy time
 
 /* Macrocs (Functions) */
 #define macro GET_PRICE_FEED_ADDRESS() = takes (0) returns (0) {
     // store PRICE_FEED_ADDRESS in memory
     [PRICE_FEED_ADDRESS] 0x00 mstore
+    // Return it
     0x20 0x00 return
+}
+
+#define macro GET_LATEST_PRICE() = takes (0) returns (0) {
+    // store the function to call in memory
+    __FUNC_SIG("latestRoundData()") 0x00 mstore  // Memory after this call ["0x00000000000000000000000000000000000000000000000000000000aabbccdd"]
+
+    // return size = 0x00 // we will get the return later
+    // return offset = 0x00
+    // arguments size = 0x04 (function selector size)
+    // arguments offset = 0x1c // Since our function selector is only 4 bytes, we have to shift over 28 bytes to get the selector in memory
+    // address = PRICE_FEED_ADDRESS
+    // gas = whatever gas is left = gas
+    // staticcall calls our PRICE_FEED_ADDRESS contract 
+    0x00 0x00 0x04 0x1c [PRICE_FEED_ADDRESS] gas staticcall // [success]
+
+    // if the call fails, we revert
+    iszero fail jumpi
+
+    // For more information on calling other contracts:
+    // https://ethereum.stackexchange.com/questions/132961/call-another-contract-with-huff
+
+    // store part of the returndata in memory
+    0x20           // [datasize, success] // We only want the int256 which is at the 2nd position
+    0x20           // [offset, datasize, success] // We want the int256 only which is 32 bytes (0x20)
+    0x00           // [destOffset, offset, datasize, success]
+    returndatacopy // [success] 
+
+    0x20           // [datasize, success]
+    0x00           // [mem_offset, datasize, success]
+    return
+
+    // If the call to the contract fails, we revert
+    fail:
+        0x00 0x00
+        revert
 }
 
 
@@ -21,10 +57,17 @@
     0x00 calldataload 0xE0 shr
 
     // We tell our code where to go based on the function selector
-    // 0x0f0f30b2 is the function selector of `getPriceFeedAddress`
+    // 0x0f0f30b2 is the function selector of `getPriceFeedAddress`, which is returned from __FUNC_SIG("getPriceFeedAddress()")
     // We can know that by running `forge inspect PriceFeedConsumer methods` on the solidity edition
-    dup1 0x0f0f30b2 eq getPriceFeedAddress jumpi 
+    // Or `cast sig "getPriceFeedAddress()"`
+    dup1 __FUNC_SIG("getPriceFeedAddress()") eq getPriceFeedAddress jumpi 
+
+    // We could also use the function selector 0x8e15f473 instead of __FUNC_SIG("getLatestPrice()") 
+    dup1 __FUNC_SIG("getLatestPrice()") eq getLatestPrice jumpi
 
     getPriceFeedAddress:
         GET_PRICE_FEED_ADDRESS()
+    
+    getLatestPrice:
+        GET_LATEST_PRICE()
 }
