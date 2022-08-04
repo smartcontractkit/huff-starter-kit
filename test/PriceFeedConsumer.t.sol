@@ -4,6 +4,7 @@ pragma solidity ^0.8.15;
 import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 import "./mocks/MockV3Aggregator.sol";
+import "../src/interfaces/PriceFeedConsumer.sol";
 
 contract PriceFeedConsumerTest is Test {
     uint8 public constant DECIMALS = 18;
@@ -34,10 +35,4 @@ contract PriceFeedConsumerTest is Test {
         int256 priceFromHuff = priceFeedConsumer.getLatestPrice();
         assertTrue(priceFromHuff == INITIAL_ANSWER);
     }
-}
-
-interface PriceFeedConsumer {
-    function getPriceFeedAddress() external view returns (address);
-
-    function getLatestPrice() external view returns (int256);
 }

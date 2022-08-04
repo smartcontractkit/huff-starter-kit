@@ -2,8 +2,9 @@
 pragma solidity ^0.8.7;
 
 import "forge-std/Script.sol";
-import "../src/KeepersCounter.sol";
 import "./HelperConfig.sol";
+import "../src/interfaces/KeepersConsumer.sol";
+import "foundry-huff/HuffDeployer.sol";
 
 contract DeployKeepersCounter is Script, HelperConfig {
     function run() external {

@@ -5,6 +5,7 @@ import "forge-std/Script.sol";
 import "./HelperConfig.sol";
 import "../test/mocks/MockV3Aggregator.sol";
 import "foundry-huff/HuffDeployer.sol";
+import "../src/interfaces/PriceFeedConsumer.sol";
 
 contract DeployPriceFeedConsumer is Script, HelperConfig {
     uint8 constant DECIMALS = 18;
@@ -32,5 +33,3 @@ contract DeployPriceFeedConsumer is Script, HelperConfig {
         vm.stopBroadcast();
     }
 }
-
-interface PriceFeedConsumer {}

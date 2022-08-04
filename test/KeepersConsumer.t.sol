@@ -4,6 +4,7 @@ pragma solidity ^0.8.15;
 import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 import "./utils/Cheats.sol";
+import "../src/interfaces/KeepersConsumer.sol";
 
 contract KeepersConsumerTest is Test {
     KeepersConsumer public keepersConsumer;
@@ -54,19 +55,4 @@ contract KeepersConsumerTest is Test {
         assertTrue(keepersConsumer.lastTimeStamp() == block.timestamp);
         assertTrue(currentCounter + 1 == keepersConsumer.counter());
     }
-}
-
-interface KeepersConsumer {
-    function counter() external view returns (uint256);
-
-    function interval() external view returns (uint256);
-
-    function lastTimeStamp() external view returns (uint256);
-
-    function checkUpkeep(bytes memory)
-        external
-        view
-        returns (bool, bytes memory);
-
-    function performUpkeep(bytes memory) external;
 }
