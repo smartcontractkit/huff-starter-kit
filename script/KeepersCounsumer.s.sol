@@ -6,7 +6,7 @@ import "./HelperConfig.sol";
 import "../src/interfaces/KeepersConsumer.sol";
 import "foundry-huff/HuffDeployer.sol";
 
-contract DeployKeepersCounter is Script, HelperConfig {
+contract DeployKeepersConsumer is Script, HelperConfig {
     function run() external {
         HelperConfig helperConfig = new HelperConfig();
 
