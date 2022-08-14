@@ -46,7 +46,8 @@
 
 #define macro CHECK_UPKEEP_RETURNS() = takes (0) returns (0) {
     // First, we populate the stack from CHECK_UPKEEP
-    CHECK_UPKEEP() // [0x00, 0x20, 0x00, time_comparison]
+    CHECK_UPKEEP() // [time_comparison]
+    0x00 0x20 0x00 // [0x00, 0x20, 0x00, time_comparison]
     mstore mstore // Then, we store the values in memory. The time_comparison result, and an empty bytes object.
     0x40 0x00 return // Then we return it all!
 }
@@ -62,17 +63,13 @@
     // Put the interval on the stack, and then compare
     [INTERVAL]                            // [INTERVAL, different_in_time]
     lt                                    // [time_comparison]
-    0x00                                  // [0x00, time_comparison]
-
-    0x00 0x20                             // [0x00, 0x20, 0x00, time_comparison]
 }
 
 #define macro PERFORM_UPKEEP() = takes (0) returns (0) {
     // We just totally ignore the bytes calldata if sent
 
     // First, we make sure checkupkeep is good
-    CHECK_UPKEEP()                         // [0x00, 0x20, 0x00, time_comparison]
-    pop pop pop                            // [time_comparison] 
+    CHECK_UPKEEP()                         // [time_comparison]
     iszero                                 // [time_comparison == 0] 
 
     // Revert if checkUpkeep is false!
