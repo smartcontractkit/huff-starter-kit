@@ -47,7 +47,7 @@
 #define macro CHECK_UPKEEP_RETURNS() = takes (0) returns (0) {
     // First, we populate the stack from CHECK_UPKEEP
     CHECK_UPKEEP() // [time_comparison]
-    0x00 0x20 0x00 // [0x00, 0x20, 0x00, time_comparison]
+    0x00 0x00 0x20 // [0x20, 0x00, 0x00, time_comparison]
     mstore mstore // Then, we store the values in memory. The time_comparison result, and an empty bytes object.
     0x40 0x00 return // Then we return it all!
 }
