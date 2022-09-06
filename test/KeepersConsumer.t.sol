@@ -3,18 +3,18 @@ pragma solidity ^0.8.15;
 
 import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
-import "./utils/Cheats.sol";
 import "../src/interfaces/KeepersConsumer.sol";
 
 contract KeepersConsumerTest is Test {
     KeepersConsumer public keepersConsumer;
     uint256 public staticTime;
     uint256 public interval;
-    Cheats internal constant cheats = Cheats(HEVM_ADDRESS);
+    uint256 public afterInterval;
 
     function setUp() public {
         staticTime = block.timestamp;
         interval = 60;
+        afterInterval = block.timestamp + 60 + 1;
         // string memory hexSixty = "0x000000000000000000000000000000000000003c";
         // we need the string hex of 60 which is: 0x3c
         // cast to-hex 60
@@ -23,7 +23,7 @@ contract KeepersConsumerTest is Test {
                 "KeepersConsumer"
             )
         );
-        cheats.warp(staticTime);
+        vm.warp(staticTime);
     }
 
     function testCheckIntervalSetup() public {
@@ -37,7 +37,7 @@ contract KeepersConsumerTest is Test {
     }
 
     function testCheckupReturnsTrueAfterTime() public {
-        cheats.warp(staticTime + interval + 1); // Needs to be more than the interval
+        vm.warp(afterInterval); // Needs to be more than the interval
         (bool upkeepNeeded, ) = keepersConsumer.checkUpkeep("0x");
         assertTrue(upkeepNeeded);
         assertTrue(upkeepNeeded);
@@ -46,7 +46,7 @@ contract KeepersConsumerTest is Test {
     function testPerformUpkeepUpdatesTime() public {
         // Arrange
         uint256 currentCounter = keepersConsumer.counter();
-        cheats.warp(staticTime + interval + 1); // Needs to be more than the interval
+        vm.warp(afterInterval); // Needs to be more than the interval
 
         // Act
         keepersConsumer.performUpkeep("0x");
