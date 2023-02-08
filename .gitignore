@@ -19,3 +19,5 @@ node_modules
 package-lock.json
 
 artifacts/
+
+__TEMP__*
